@@ -2,27 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Veilian Chat 17</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body { font-family: Arial, sans-serif; background: #121212; color: #fff; margin: 0; padding: 0; }
-    #loginScreen, #chatScreen, #profilePage { padding: 20px; }
-    input { padding: 8px; margin: 5px; border-radius: 4px; border: 1px solid #ccc; }
-    button { padding: 8px 12px; margin: 5px; border-radius: 4px; cursor: pointer; }
-    .messages { max-height: 400px; overflow-y: auto; border: 1px solid #555; padding: 10px; background: #222; }
-    .messageRow { display: flex; align-items: center; margin-bottom: 5px; }
-    .messageRow img.userAvatar { width: 32px; height: 32px; border-radius: 50%; margin-right: 8px; cursor: pointer; }
-    .profileBox { background: #1e1e1e; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; }
-    .profileBox img.userAvatar { width: 80px; height: 80px; border-radius: 50%; display: block; margin-bottom: 10px; }
-    #adminPanel input { width: 120px; }
-    #adminPanel h3 { margin: 0 0 5px 0; }
-  </style>
+  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-
   <!-- LOGIN SCREEN -->
-  <div id="loginScreen">
+  <div id="loginScreen" class="screen">
     <h1>Veilian Chat 17</h1>
     <input id="usernameInput" placeholder="Username">
     <input id="passwordInput" type="password" placeholder="Password">
@@ -31,12 +18,10 @@
   </div>
 
   <!-- CHAT SCREEN -->
-  <div id="chatScreen" style="display:none;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <div>
-        <button id="profileBtn" onclick="openProfileEditor()">Edit Profile</button>
-      </div>
-      <div id="adminPanel" style="display:none;">
+  <div id="chatScreen" class="screen" style="display:none;">
+    <div class="topBar">
+      <button id="profileBtn" onclick="openProfileEditor()">Edit Profile</button>
+      <div id="adminPanel" style="display:none;" class="adminPanel">
         <h3>Admin Panel</h3>
         <input id="banUserInput" placeholder="Ban username">
         <button onclick="banUser()">Ban</button>
@@ -47,7 +32,7 @@
 
     <div id="messages" class="messages"></div>
 
-    <div style="margin-top:10px;">
+    <div class="chatInput">
       <input id="chatMessage" placeholder="Message...">
       <button onclick="sendMessage()">Send</button>
     </div>
@@ -55,8 +40,5 @@
 
   <!-- PROFILE PAGE (VIEW & EDIT) -->
   <div id="profilePage" style="display:none;"></div>
-
-  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-  <script src="app.js"></script>
 </body>
 </html>
