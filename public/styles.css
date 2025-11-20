@@ -1,0 +1,23 @@
+body {
+  background:#111;
+  color:white;
+  font-family:Arial;
+}
+#messages {
+  height:400px;
+  overflow-y:auto;
+  background:#222;
+  padding:10px;
+  border-radius:10px;
+}
+.userAvatar {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+}
+.profileBox {
+  background:#222;
+  padding:20px;
+  border-radius:15px;
+  width:300px;
+}
