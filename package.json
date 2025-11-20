@@ -1,31 +1,17 @@
-veilian-chat-17/
-├─ package.json
-├─ server.js
-├─ data/
-│   ├─ users.json  (empty: { "users": [] })
-│   └─ banned.json (empty: { "banned": [] })
-├─ uploads/
-│   └─ profilePics/ (empty folder)
-└─ public/
-├─ index.html
-├─ app.js
-└─ styles.css
-
-// package.json content:
 {
-"name": "veilian-chat-17",
-"version": "1.0.0",
-"description": "Veilian Chat 17 with full profiles, avatars, bios, join dates, unique usernames, admin panel, and user banning.",
-"main": "server.js",
-"scripts": {
-"start": "node server.js"
-},
-"dependencies": {
-"express": "^4.18.2",
-"body-parser": "^1.20.2",
-"pusher": "^5.1.2",
-"multer": "1.4.5-lts.1",
-"fs-extra": "^11.2.0",
-"cors": "^2.8.5"
-}
+  "name": "veilian-chat-17",
+  "version": "1.0.0",
+  "description": "Veilian Chat 17 with full profiles, avatars, bios, join dates, unique usernames, admin panel, and user banning.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "pusher": "^5.1.2",
+    "multer": "1.4.5-lts.1",
+    "fs-extra": "^11.2.0",
+    "cors": "^2.8.5"
+  }
 }
