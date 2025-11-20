@@ -4,8 +4,10 @@ let CURRENT_USER = null;
 // LOGIN
 // ================================
 function login() {
-  const username = document.getElementById("usernameInput").value;
+  const username = document.getElementById("usernameInput").value.trim();
   const password = document.getElementById("passwordInput").value;
+
+  if (!username || !password) return alert("Enter both username and password.");
 
   fetch("/login", {
     method: "POST",
@@ -21,7 +23,6 @@ function login() {
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("chatScreen").style.display = "block";
 
-      // Show admin panel if moderator
       if (CURRENT_USER.isModerator)
         document.getElementById("adminPanel").style.display = "block";
     });
@@ -31,8 +32,10 @@ function login() {
 // SIGNUP
 // ================================
 function signup() {
-  const username = document.getElementById("usernameInput").value;
+  const username = document.getElementById("usernameInput").value.trim();
   const password = document.getElementById("passwordInput").value;
+
+  if (!username || !password) return alert("Enter both username and password.");
 
   fetch("/signup", {
     method: "POST",
@@ -49,14 +52,13 @@ function signup() {
 // ================================
 // CHAT
 // ================================
-var pusher = new Pusher("b7d05dcc13df522efbbc", { cluster: "us2" });
-var channel = pusher.subscribe("chat");
-channel.bind("message", function(data) {
-  addMessage(data.username, data.message);
-});
+const pusher = new Pusher("b7d05dcc13df522efbbc", { cluster: "us2" });
+const channel = pusher.subscribe("chat");
+
+channel.bind("message", data => addMessage(data.username, data.message));
 
 function sendMessage() {
-  const message = document.getElementById("chatMessage").value;
+  const message = document.getElementById("chatMessage").value.trim();
   if (!message) return;
 
   fetch("/send-message", {
@@ -69,15 +71,24 @@ function sendMessage() {
 }
 
 function addMessage(username, message) {
-  const msgBox = document.getElementById("messages");
-  const div = document.createElement("div");
-  div.innerHTML = `<b style='cursor:pointer;color:cyan;' onclick='openProfile("${username}")'>@${username}</b>: ${message}`;
-  msgBox.appendChild(div);
-  msgBox.scrollTop = msgBox.scrollHeight;
+  fetch(`/profile/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      const avatar = data.success ? data.user.avatar : "default.png";
+      const msgBox = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "messageRow";
+      div.innerHTML = `
+        <img src='/uploads/profilePics/${avatar}' class='userAvatar' onclick='openProfile("${username}")'>
+        <b style='cursor:pointer;color:cyan;' onclick='openProfile("${username}")'>@${username}</b>: ${message}
+      `;
+      msgBox.appendChild(div);
+      msgBox.scrollTop = msgBox.scrollHeight;
+    });
 }
 
 // ================================
-// PROFILE
+// PROFILE VIEW
 // ================================
 function openProfile(username) {
   fetch(`/profile/${username}`)
@@ -102,41 +113,6 @@ function openProfile(username) {
 
 function closeProfile() {
   document.getElementById("profilePage").style.display = "none";
-}
-
-// ================================
-// ADMIN / MODERATOR FUNCTIONS
-// ================================
-function banUser() {
-  const username = document.getElementById("banUserInput").value;
-  if (!username) return alert("Enter a username to ban.");
-
-  fetch("/ban", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) alert(`User @${username} has been banned.`);
-      document.getElementById("banUserInput").value = "";
-    });
-}
-
-function unbanUser() {
-  const username = document.getElementById("unbanUserInput").value;
-  if (!username) return alert("Enter a username to unban.");
-
-  fetch("/unban", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) alert(`User @${username} has been unbanned.`);
-      document.getElementById("unbanUserInput").value = "";
-    });
 }
 
 // ================================
@@ -167,10 +143,7 @@ function saveProfile() {
   formData.append("bio", bio);
   if (avatarFile) formData.append("avatar", avatarFile);
 
-  fetch("/updateProfile", {
-    method: "POST",
-    body: formData
-  })
+  fetch("/updateProfile", { method: "POST", body: formData })
     .then(res => res.json())
     .then(data => {
       if (data.success) {
@@ -180,5 +153,32 @@ function saveProfile() {
         if (avatarFile) CURRENT_USER.avatar = data.filename || CURRENT_USER.avatar;
         closeProfile();
       }
+    });
+}
+
+// ================================
+// ADMIN FUNCTIONS
+// ================================
+function banUser() {
+  const username = document.getElementById("banUserInput").value.trim();
+  if (!username) return alert("Enter a username to ban.");
+
+  fetch("/ban", { method: "POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ username }) })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) alert(`User @${username} has been banned.`);
+      document.getElementById("banUserInput").value = "";
+    });
+}
+
+function unbanUser() {
+  const username = document.getElementById("unbanUserInput").value.trim();
+  if (!username) return alert("Enter a username to unban.");
+
+  fetch("/unban", { method: "POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ username }) })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) alert(`User @${username} has been unbanned.`);
+      document.getElementById("unbanUserInput").value = "";
     });
 }
