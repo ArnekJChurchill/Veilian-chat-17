@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Veilian Chat 17</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- LOGIN SCREEN -->
   <div id="loginScreen">
     <h1>Veilian Chat 17</h1>
     <input id="usernameInput" placeholder="Username">
@@ -13,23 +15,33 @@
     <button onclick="signup()">Sign Up</button>
   </div>
 
+  <!-- CHAT SCREEN -->
   <div id="chatScreen" style="display:none;">
-    <div id="profileBtn" onclick="openProfileEditor()">Edit Profile</div>
-    <div id="messages"></div>
-    <input id="chatMessage" placeholder="Message...">
-    <button onclick="sendMessage()">Send</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div>
+        <button id="profileBtn" onclick="openProfileEditor()">Edit Profile</button>
+      </div>
+      <div id="adminPanel" style="display:none;">
+        <h3>Admin Panel</h3>
+        <input id="banUserInput" placeholder="Ban username">
+        <button onclick="banUser()">Ban</button>
+        <input id="unbanUserInput" placeholder="Unban username">
+        <button onclick="unbanUser()">Unban</button>
+      </div>
+    </div>
 
-    <div id="adminPanel" style="display:none;">
-      <h3>Admin Panel</h3>
-      <input id="banUserInput" placeholder="Ban username">
-      <button onclick="banUser()">Ban</button>
-      <input id="unbanUserInput" placeholder="Unban username">
-      <button onclick="unbanUser()">Unban</button>
+    <div id="messages" class="messages"></div>
+
+    <div style="margin-top:10px;">
+      <input id="chatMessage" placeholder="Message...">
+      <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
+  <!-- PROFILE PAGE (VIEW & EDIT) -->
   <div id="profilePage" style="display:none;"></div>
 
+  <!-- PUSHER -->
   <script src="https://js.pusher.com/8.2/pusher.min.js"></script>
   <script src="app.js"></script>
 </body>
