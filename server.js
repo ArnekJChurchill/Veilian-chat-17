@@ -25,41 +25,35 @@ app.use("/uploads", express.static("uploads"));
 fs.ensureDirSync("uploads/profilePics");
 fs.ensureDirSync("data");
 
-// === Load database ===
+// === Database files ===
 const USERS_FILE = path.join(__dirname, "data/users.json");
 const BANNED_FILE = path.join(__dirname, "data/banned.json");
 
 if (!fs.existsSync(USERS_FILE)) fs.writeJSONSync(USERS_FILE, { users: [] });
 if (!fs.existsSync(BANNED_FILE)) fs.writeJSONSync(BANNED_FILE, { banned: [] });
 
-// === Multer Upload Setup (avatars) ===
+// === Multer setup for avatar uploads ===
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/profilePics");
-  },
+  destination: (req, file, cb) => cb(null, "uploads/profilePics"),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     cb(null, `${Date.now()}${ext}`);
   },
 });
-
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // ================================
-// AUTH: SIGNUP
+// SIGNUP
 // ================================
 app.post("/signup", (req, res) => {
   let { username, password } = req.body;
-
   username = username.toLowerCase();
 
   const usersData = fs.readJSONSync(USERS_FILE);
-
   if (usersData.users.find(u => u.username === username)) {
     return res.json({ success: false, message: "Username already taken" });
   }
 
-  // Create user profile
   usersData.users.push({
     username,
     password,
@@ -71,12 +65,11 @@ app.post("/signup", (req, res) => {
   });
 
   fs.writeJSONSync(USERS_FILE, usersData);
-
   res.json({ success: true });
 });
 
 // ================================
-// AUTH: LOGIN
+// LOGIN
 // ================================
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
@@ -91,9 +84,7 @@ app.post("/login", (req, res) => {
     u => u.username === username && u.password === password
   );
 
-  if (!user) {
-    return res.json({ success: false, message: "Invalid login" });
-  }
+  if (!user) return res.json({ success: false, message: "Invalid login" });
 
   res.json({ success: true, user });
 });
@@ -110,11 +101,15 @@ app.post("/updateProfile", upload.single("avatar"), (req, res) => {
 
   if (displayName) user.displayName = displayName;
   if (bio) user.bio = bio;
-  if (req.file) user.avatar = req.file.filename;
+
+  let filename = null;
+  if (req.file) {
+    user.avatar = req.file.filename;
+    filename = req.file.filename;
+  }
 
   fs.writeJSONSync(USERS_FILE, usersData);
-
-  res.json({ success: true });
+  res.json({ success: true, filename });
 });
 
 // ================================
@@ -126,34 +121,25 @@ app.get("/profile/:username", (req, res) => {
   const user = usersData.users.find(u => u.username === username);
 
   if (!user) return res.json({ success: false });
-
   res.json({ success: true, user });
 });
 
 // ================================
-// ADMIN BAN USER
+// ADMIN: BAN / UNBAN USERS
 // ================================
 app.post("/ban", (req, res) => {
   const { username } = req.body;
-
   const bannedData = fs.readJSONSync(BANNED_FILE);
   if (!bannedData.banned.includes(username)) bannedData.banned.push(username);
-
   fs.writeJSONSync(BANNED_FILE, bannedData);
-
   res.json({ success: true });
 });
 
-// ================================
-// ADMIN UNBAN USER
-// ================================
 app.post("/unban", (req, res) => {
   const { username } = req.body;
-
   const bannedData = fs.readJSONSync(BANNED_FILE);
   bannedData.banned = bannedData.banned.filter(u => u !== username);
   fs.writeJSONSync(BANNED_FILE, bannedData);
-
   res.json({ success: true });
 });
 
@@ -162,18 +148,16 @@ app.post("/unban", (req, res) => {
 // ================================
 app.post("/send-message", (req, res) => {
   const { username, message } = req.body;
+  if (!message) return res.json({ success: false, message: "Message empty" });
 
-  pusher.trigger("chat", "message", {
-    username,
-    message,
-  });
-
+  pusher.trigger("chat", "message", { username, message });
   res.json({ success: true });
 });
 
 // ================================
 // START SERVER
 // ================================
-app.listen(3000, () => {
-  console.log("Veilian-Chat-17 running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Veilian-Chat-17 running on http://localhost:${PORT}`);
 });
