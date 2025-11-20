@@ -2,7 +2,10 @@ body {
   background:#111;
   color:white;
   font-family:Arial;
+  margin:0;
+  padding:20px;
 }
+
 #messages {
   height:400px;
   overflow-y:auto;
@@ -10,14 +13,29 @@ body {
   padding:10px;
   border-radius:10px;
 }
+
+.messageRow {
+  display:flex;
+  align-items:center;
+  margin-bottom:5px;
+}
+
 .userAvatar {
   width:40px;
   height:40px;
   border-radius:50%;
+  margin-right:10px;
+  cursor:pointer;
 }
+
 .profileBox {
   background:#222;
   padding:20px;
   border-radius:15px;
   width:300px;
+}
+
+#chatMessage {
+  width:70%;
+  padding:5px;
 }
