@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Veilian Chat 17</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="loginScreen">
+    <h1>Veilian Chat 17</h1>
+    <input id="usernameInput" placeholder="Username">
+    <input id="passwordInput" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <button onclick="signup()">Sign Up</button>
+  </div>
+
+  <div id="chatScreen" style="display:none;">
+    <div id="profileBtn" onclick="openProfileEditor()">Edit Profile</div>
+    <div id="messages"></div>
+    <input id="chatMessage" placeholder="Message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <div id="adminPanel" style="display:none;">
+      <h3>Admin Panel</h3>
+      <input id="banUserInput" placeholder="Ban username">
+      <button onclick="banUser()">Ban</button>
+      <input id="unbanUserInput" placeholder="Unban username">
+      <button onclick="unbanUser()">Unban</button>
+    </div>
+  </div>
+
+  <div id="profilePage" style="display:none;"></div>
+
+  <script src="https://js.pusher.com/8.2/pusher.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
