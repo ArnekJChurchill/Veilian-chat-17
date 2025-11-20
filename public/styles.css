@@ -1,41 +1,99 @@
 body {
-  background:#111;
-  color:white;
-  font-family:Arial;
-  margin:0;
-  padding:20px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #121212;
+  color: #fff;
 }
 
-#messages {
-  height:400px;
-  overflow-y:auto;
-  background:#222;
-  padding:10px;
-  border-radius:10px;
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+input {
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: none;
+  width: 200px;
+}
+
+button {
+  padding: 8px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background: #1a73e8;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #155ab6;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 10px auto;
+}
+
+.adminPanel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.messages {
+  width: 90%;
+  height: 60vh;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 10px;
+  overflow-y: auto;
+  background: #1e1e1e;
+  margin-bottom: 10px;
 }
 
 .messageRow {
-  display:flex;
-  align-items:center;
-  margin-bottom:5px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .userAvatar {
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  margin-right:10px;
-  cursor:pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.chatInput {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+}
+
+.chatInput input {
+  flex: 1;
 }
 
 .profileBox {
-  background:#222;
-  padding:20px;
-  border-radius:15px;
-  width:300px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
 }
 
-#chatMessage {
-  width:70%;
-  padding:5px;
+.profileBox input {
+  width: 90%;
+  margin: 5px 0;
 }
