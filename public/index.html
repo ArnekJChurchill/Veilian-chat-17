@@ -8,8 +8,8 @@
   <script src="app.js" defer></script>
 </head>
 <body>
-  <!-- LOGIN SCREEN -->
-  <div id="loginScreen" class="screen">
+  <!-- LOGIN -->
+  <div id="loginScreen">
     <h1>Veilian Chat 17</h1>
     <input id="usernameInput" placeholder="Username">
     <input id="passwordInput" type="password" placeholder="Password">
@@ -17,11 +17,11 @@
     <button onclick="signup()">Sign Up</button>
   </div>
 
-  <!-- CHAT SCREEN -->
-  <div id="chatScreen" class="screen" style="display:none;">
-    <div class="topBar">
+  <!-- CHAT -->
+  <div id="chatScreen" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
       <button id="profileBtn" onclick="openProfileEditor()">Edit Profile</button>
-      <div id="adminPanel" style="display:none;" class="adminPanel">
+      <div id="adminPanel" style="display:none;">
         <h3>Admin Panel</h3>
         <input id="banUserInput" placeholder="Ban username">
         <button onclick="banUser()">Ban</button>
@@ -29,16 +29,14 @@
         <button onclick="unbanUser()">Unban</button>
       </div>
     </div>
-
     <div id="messages" class="messages"></div>
-
-    <div class="chatInput">
+    <div style="margin-top:10px;">
       <input id="chatMessage" placeholder="Message...">
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
-  <!-- PROFILE PAGE (VIEW & EDIT) -->
+  <!-- PROFILE -->
   <div id="profilePage" style="display:none;"></div>
 </body>
 </html>
