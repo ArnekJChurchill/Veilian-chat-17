@@ -163,22 +163,30 @@ function banUser() {
   const username = document.getElementById("banUserInput").value.trim();
   if (!username) return alert("Enter a username to ban.");
 
-  fetch("/ban", { method: "POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ username }) })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) alert(`User @${username} has been banned.`);
-      document.getElementById("banUserInput").value = "";
-    });
+  fetch("/ban", { 
+    method: "POST", 
+    headers:{ "Content-Type":"application/json" }, 
+    body: JSON.stringify({ username }) 
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) alert(`User @${username} has been banned.`);
+    document.getElementById("banUserInput").value = "";
+  });
 }
 
 function unbanUser() {
   const username = document.getElementById("unbanUserInput").value.trim();
   if (!username) return alert("Enter a username to unban.");
 
-  fetch("/unban", { method: "POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ username }) })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) alert(`User @${username} has been unbanned.`);
-      document.getElementById("unbanUserInput").value = "";
-    });
+  fetch("/unban", { 
+    method: "POST", 
+    headers:{ "Content-Type":"application/json" }, 
+    body: JSON.stringify({ username }) 
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) alert(`User @${username} has been unbanned.`);
+    document.getElementById("unbanUserInput").value = "";
+  });
 }
